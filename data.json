@@ -1,0 +1,331 @@
+{
+  "meta": {
+    "title": "AI BUBBLE — Live Trigger Monitor",
+    "baselineDate": "2026-06-08",
+    "lastUpdated": "2026-06-08T13:46:04.212Z",
+    "lastDeepCheck": "2026-06-08 (initial 57-agent baseline)"
+  },
+  "status": {
+    "label": "LOADED, NOT IGNITED",
+    "level": "green"
+  },
+  "signal": {
+    "capexGrowth": "+66% YoY",
+    "revGrowth": "+40 to 63% YoY",
+    "capexPct": 66,
+    "revPct": 52,
+    "armed": false,
+    "note": "Capex growth is running slightly hot, but revenue is still accelerating and all four hyperscalers are still RAISING capex guidance, so the signal reads bullish. First real test: Q2-2026 earnings (~late Jul 2026)."
+  },
+  "scoreboard": {
+    "watch": 5,
+    "dormant": 3,
+    "armed": 0
+  },
+  "triggers": [
+    {
+      "n": 1,
+      "name": "Hyperscaler capex cut / pause",
+      "sub": "The keystone — a cut hits NVIDIA almost 1:1",
+      "metric": "AI-rev growth < capex growth for 2 qtrs, OR any of MSFT/GOOGL/AMZN/META cuts/holds capex guidance",
+      "status": "watch"
+    },
+    {
+      "n": 2,
+      "name": "OpenAI counterparty / funding break",
+      "sub": "AIG-style single point of failure",
+      "metric": "Failed/down round vs the ~$207B funding gap; Oracle/Stargate payment delay",
+      "status": "watch"
+    },
+    {
+      "n": 3,
+      "name": "Neocloud / GPU-credit stress",
+      "sub": "Credit leads equity 1-2 qtrs",
+      "metric": "CoreWeave-class refi fails at par / spread >200bps; H100 rents <$1.50/hr; BDC NAV discounts >25-30%",
+      "status": "watch"
+    },
+    {
+      "n": 4,
+      "name": "Model-commoditization shock",
+      "sub": "DeepSeek-repeat (sign is ambiguous)",
+      "metric": "Frontier-class open model at sub-$10M training cost",
+      "status": "watch"
+    },
+    {
+      "n": 5,
+      "name": "Power / grid permitting revolt",
+      "sub": "Exogenous binding constraint",
+      "metric": "A PUC denial or ballot/legislative moratorium forcing a capex pause",
+      "status": "watch"
+    },
+    {
+      "n": 6,
+      "name": "Real-rate / credit shock",
+      "sub": "Discount-rate hit on long-duration AI equities",
+      "metric": "10Y TIPS real yield >2.5% toward 3.0%; HY spreads >500bps (now ~3.75% Fed, cutting)",
+      "status": "dormant"
+    },
+    {
+      "n": 7,
+      "name": "Success-triggered bust / SPV re-consolidation",
+      "sub": "The under-priced tail",
+      "metric": "Capability leap shortens GPU life; or SEC/auditor VIE re-test consolidates SPVs",
+      "status": "dormant"
+    },
+    {
+      "n": 8,
+      "name": "Taiwan / TSMC chokepoint",
+      "sub": "Low odds, catastrophic severity",
+      "metric": "PLA exercises beyond the Aug-2022 envelope",
+      "status": "dormant"
+    }
+  ],
+  "timing": {
+    "bear": {
+      "pct": 30,
+      "window": "Now-Q3 2027",
+      "desc": "sharp, credit-first, periphery-led"
+    },
+    "base": {
+      "pct": 45,
+      "window": "H2 2026-H2 2028 (centered 2027)",
+      "desc": "rolling de-rating; periphery first then a capex cut cascades to NVIDIA"
+    },
+    "bull": {
+      "pct": 25,
+      "window": "deferred beyond 2028",
+      "desc": "monetization inflects on schedule"
+    }
+  },
+  "checks": [
+    [
+      "2026-08-03",
+      "Q2 2026 — the FIRST TEST"
+    ],
+    [
+      "2026-11-03",
+      "Q3 2026"
+    ],
+    [
+      "2027-02-03",
+      "Q4 2026 / full-year"
+    ],
+    [
+      "2027-05-03",
+      "Q1 2027"
+    ],
+    [
+      "2027-08-03",
+      "Q2 2027"
+    ],
+    [
+      "2027-11-03",
+      "Q3 2027"
+    ],
+    [
+      "2028-02-03",
+      "Q4 2027"
+    ],
+    [
+      "2028-05-03",
+      "Q1 2028"
+    ],
+    [
+      "2028-08-03",
+      "Q2 2028"
+    ],
+    [
+      "2028-11-03",
+      "Q3 2028 — final"
+    ]
+  ],
+  "riskiest": [
+    [
+      "Cambricon",
+      10
+    ],
+    [
+      "SSI",
+      9.5
+    ],
+    [
+      "Bloom",
+      9
+    ],
+    [
+      "xAI",
+      9
+    ],
+    [
+      "Astera",
+      9
+    ],
+    [
+      "Crusoe",
+      9
+    ],
+    [
+      "Palantir",
+      8.5
+    ],
+    [
+      "CoreWeave",
+      8.5
+    ],
+    [
+      "ARM",
+      8.5
+    ],
+    [
+      "Tesla",
+      8.5
+    ],
+    [
+      "OpenAI",
+      8.5
+    ],
+    [
+      "Lumentum",
+      8.5
+    ]
+  ],
+  "safest": [
+    [
+      "Tencent",
+      3
+    ],
+    [
+      "Salesforce",
+      4
+    ],
+    [
+      "TSMC",
+      4
+    ],
+    [
+      "Vistra",
+      4
+    ],
+    [
+      "Amazon",
+      4.5
+    ],
+    [
+      "Microsoft",
+      5
+    ],
+    [
+      "Alphabet",
+      5
+    ],
+    [
+      "Broadcom",
+      5
+    ]
+  ],
+  "prices": [
+    {
+      "name": "NVIDIA",
+      "sym": "NVDA",
+      "tag": "core",
+      "price": 208.35,
+      "change": 1.58,
+      "date": "2026-06-08"
+    },
+    {
+      "name": "Microsoft",
+      "sym": "MSFT",
+      "tag": "core",
+      "price": 413.17,
+      "change": -0.84,
+      "date": "2026-06-08"
+    },
+    {
+      "name": "Alphabet",
+      "sym": "GOOGL",
+      "tag": "core",
+      "price": 364.01,
+      "change": -1.23,
+      "date": "2026-06-08"
+    },
+    {
+      "name": "Amazon",
+      "sym": "AMZN",
+      "tag": "core",
+      "price": 247.95,
+      "change": 0.78,
+      "date": "2026-06-08"
+    },
+    {
+      "name": "Meta",
+      "sym": "META",
+      "tag": "core",
+      "price": 587.78,
+      "change": -0.88,
+      "date": "2026-06-08"
+    },
+    {
+      "name": "CoreWeave",
+      "sym": "CRWV",
+      "tag": "periphery",
+      "price": 99.4,
+      "change": -0.99,
+      "date": "2026-06-08"
+    },
+    {
+      "name": "Astera Labs",
+      "sym": "ALAB",
+      "tag": "periphery",
+      "price": 341.4,
+      "change": 7.68,
+      "date": "2026-06-08"
+    },
+    {
+      "name": "ARM",
+      "sym": "ARM",
+      "tag": "periphery",
+      "price": 348.9,
+      "change": 1.74,
+      "date": "2026-06-08"
+    },
+    {
+      "name": "Tesla",
+      "sym": "TSLA",
+      "tag": "periphery",
+      "price": 398.95,
+      "change": 2.03,
+      "date": "2026-06-08"
+    },
+    {
+      "name": "Lumentum",
+      "sym": "LITE",
+      "tag": "periphery",
+      "price": 877.58,
+      "change": 1.61,
+      "date": "2026-06-08"
+    },
+    {
+      "name": "Bloom Energy",
+      "sym": "BE",
+      "tag": "periphery",
+      "price": 260.47,
+      "change": -1.19,
+      "date": "2026-06-08"
+    },
+    {
+      "name": "Palantir",
+      "sym": "PLTR",
+      "tag": "periphery",
+      "price": 136.72,
+      "change": 0.88,
+      "date": "2026-06-08"
+    }
+  ],
+  "headlines": [],
+  "checkLog": [
+    {
+      "date": "2026-06-08",
+      "note": "Baseline established by 57-agent workflow + live cross-check. Bifurcated bubble ~72-75%; 5 WATCH / 3 DORMANT / 0 ARMED; #1 signal not yet armed (cloud growth still accelerating)."
+    }
+  ]
+}

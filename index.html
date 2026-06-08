@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0e14">
+<title>AI BUBBLE — Live Trigger Monitor</title>
+<style>
+  :root{
+    --bg:#0a0e14;--panel:#121823;--panel2:#0f141d;--line:#1e2733;
+    --txt:#e6edf3;--mut:#8b98a9;--grn:#3fb950;--amb:#d29922;--red:#f85149;
+    --blu:#58a6ff;--accent:#7ee787;--shadow:0 2px 18px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#10202e 0%,var(--bg) 55%);
+    color:var(--txt);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    padding:18px;max-width:1180px;margin:0 auto;-webkit-text-size-adjust:100%}
+  h1{font-size:23px;margin:0;letter-spacing:.3px}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:1.4px;color:var(--mut);margin:0 0 12px}
+  .sub{color:var(--mut);font-size:12.5px;margin-top:4px}
+  .row{display:flex;gap:16px;flex-wrap:wrap}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);
+    border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+  .header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-weight:700;font-size:13px}
+  .badge.green{background:rgba(63,185,80,.12);color:var(--grn);border:1px solid rgba(63,185,80,.35)}
+  .badge.amber{background:rgba(210,153,34,.13);color:var(--amb);border:1px solid rgba(210,153,34,.35)}
+  .badge.red{background:rgba(248,81,73,.14);color:var(--red);border:1px solid rgba(248,81,73,.4)}
+  .clock{font-variant-numeric:tabular-nums;color:var(--mut);font-size:12.5px;text-align:right;margin-top:6px}
+  .clock b{color:var(--txt)}
+
+  .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+  @media(max-width:780px){.hero{grid-template-columns:1fr}}
+  .barrow{margin:13px 0}
+  .barrow .lab{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px;gap:10px}
+  .track{height:15px;background:#0b0f16;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .fill{height:100%;border-radius:7px}
+  .fill.capex{background:linear-gradient(90deg,#d29922,#f0883e)}
+  .fill.rev{background:linear-gradient(90deg,#2ea043,#3fb950)}
+  .verdict{margin-top:13px;padding:11px 13px;border-radius:10px;background:rgba(210,153,34,.08);
+    border:1px solid rgba(210,153,34,.3);font-size:13px;color:#e8d9b0}
+  .countdown{display:flex;flex-direction:column;justify-content:center;text-align:center}
+  .countdown-big{font-size:46px;font-weight:800;line-height:1;letter-spacing:-1px;color:var(--accent);font-variant-numeric:tabular-nums}
+  .countdown small{display:block;color:var(--mut);font-size:11.5px;margin-top:8px;text-transform:uppercase;letter-spacing:1px}
+  .nextlabel{margin-top:13px;font-size:13.5px}
+  .nextlabel b{color:var(--blu)}
+
+  .prices{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:9px}
+  .px{background:#0b0f16;border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+  .px .t{font-size:11px;color:var(--mut)}
+  .px .p{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
+  .px .c{font-size:11.5px;font-weight:600}
+  .px.core{border-left:3px solid var(--blu)}
+  .px.periphery{border-left:3px solid var(--red)}
+  .up{color:var(--grn)} .down{color:var(--red)}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--mut);font-size:10.5px;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+  td.num{color:var(--mut);width:22px}
+  .pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:700;white-space:nowrap}
+  .pill.dormant{background:rgba(63,185,80,.12);color:var(--grn);border:1px solid rgba(63,185,80,.3)}
+  .pill.watch{background:rgba(210,153,34,.13);color:var(--amb);border:1px solid rgba(210,153,34,.35)}
+  .pill.armed{background:rgba(248,81,73,.14);color:var(--red);border:1px solid rgba(248,81,73,.4)}
+  .tname{font-weight:600} .tread{color:var(--mut);font-size:12px;margin-top:3px}
+
+  .tl{position:relative;height:64px;margin:22px 6px 6px;border-radius:10px;background:#0b0f16;border:1px solid var(--line)}
+  .seg{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:#0a0e14;opacity:.92}
+  .seg.bear{left:0;width:30%;background:linear-gradient(90deg,#f85149,#da3633)}
+  .seg.base{left:18%;width:60%;background:linear-gradient(90deg,rgba(210,153,34,.85),rgba(240,136,62,.85));mix-blend-mode:screen}
+  .seg.bull{left:78%;width:22%;background:linear-gradient(90deg,#2ea043,#3fb950)}
+  .nowmark{position:absolute;top:-10px;bottom:-10px;left:8%;width:2px;background:var(--blu)}
+  .nowmark span{position:absolute;top:-17px;left:-16px;color:var(--blu);font-size:10px;font-weight:700;white-space:nowrap}
+  .tlaxis{display:flex;justify-content:space-between;color:var(--mut);font-size:10.5px;margin:6px 6px 0}
+
+  .sched{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:9px}
+  .chk{background:#0b0f16;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .chk.next{border-color:var(--blu);box-shadow:0 0 0 1px rgba(88,166,255,.4)}
+  .chk.done{opacity:.45}
+  .chk .d{font-weight:700;font-size:13px} .chk .q{color:var(--mut);font-size:11px;margin-top:3px}
+  .chk .tag{display:inline-block;margin-top:6px;font-size:9.5px;padding:2px 7px;border-radius:6px;background:rgba(88,166,255,.14);color:var(--blu)}
+
+  .names{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .chiprisk{padding:4px 9px;border-radius:8px;font-size:11.5px;background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.28);color:#ffb4ad}
+  .chipsafe{padding:4px 9px;border-radius:8px;font-size:11.5px;background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.28);color:#9be6a9}
+  .foot{color:var(--mut);font-size:11.5px;line-height:1.7;margin-top:6px}
+  .legend{display:flex;gap:13px;flex-wrap:wrap;margin-top:10px;font-size:11.5px;color:var(--mut)}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+  .log{font-size:12px;color:var(--mut);border-left:2px solid var(--line);padding-left:12px;margin:8px 0}
+  .log b{color:var(--txt)}
+  a{color:var(--blu)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:780px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>🫧 AI BUBBLE — Live Trigger Monitor</h1>
+    <div class="sub">Hosted on GitHub Pages · prices auto-refresh on a cron · deep triggers updated by the “AI BUBLE” check</div>
+  </div>
+  <div style="text-align:right">
+    <span class="badge green" id="statusBadge">—</span>
+    <div class="clock" id="clock">—</div>
+    <div class="clock" id="updated"></div>
+  </div>
+</div>
+
+<div id="loaderr" style="display:none" class="card"><b style="color:var(--amb)">⚠️ data.json not loaded.</b> View this page on its GitHub Pages URL (fetch is blocked when opening the file directly).</div>
+
+<div class="hero" style="margin-bottom:16px">
+  <div class="card">
+    <h2>The #1 signal — “money in” vs “money out”</h2>
+    <div style="font-size:13px;color:var(--mut)">The bubble inflates while AI-<b style="color:var(--grn)">revenue</b> growth keeps pace with <b style="color:var(--amb)">capex</b> growth and builders keep <i>raising</i> budgets. It <b>arms</b> when revenue growth falls below capex growth for 2 quarters <i>and</i> a hyperscaler cuts/holds capex.</div>
+    <div class="bars" style="margin-top:8px">
+      <div class="barrow">
+        <div class="lab"><span>🏗️ Hyperscaler <b>CAPEX</b> growth (money out)</span><b style="color:var(--amb)" id="capexG">—</b></div>
+        <div class="track"><div class="fill capex" id="capexBar" style="width:66%"></div></div>
+      </div>
+      <div class="barrow">
+        <div class="lab"><span>💰 AI / cloud <b>REVENUE</b> growth (money in)</span><b style="color:var(--grn)" id="revG">—</b></div>
+        <div class="track"><div class="fill rev" id="revBar" style="width:52%"></div></div>
+      </div>
+    </div>
+    <div class="verdict" id="signalNote">—</div>
+  </div>
+  <div class="card countdown">
+    <h2 style="text-align:center">Next “AI BUBLE” check</h2>
+    <div class="countdown-big" id="cd">—</div>
+    <small id="cdunits">—</small>
+    <div class="nextlabel">📅 <b id="nextDate">—</b><br><span id="nextQ" style="color:var(--mut);font-size:12.5px"></span></div>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <h2>Live prices <span style="text-transform:none;letter-spacing:0;color:var(--mut)" id="pxAsOf"></span></h2>
+  <div class="prices" id="prices"><div class="foot">Awaiting first cron refresh — run the “AI BUBLE refresh” workflow once (Actions ▸ Run workflow) to populate.</div></div>
+  <div class="legend"><span><span class="dot" style="background:var(--blu)"></span>Core (resilient)</span><span><span class="dot" style="background:var(--red)"></span>Periphery (fragile)</span></div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <h2>8-trigger scoreboard <span style="text-transform:none;letter-spacing:0;color:var(--mut)">— what would pop it, and where each stands</span></h2>
+  <table><thead><tr><th class="num">#</th><th>Trigger</th><th>Watch metric &amp; threshold</th><th>Status</th></tr></thead>
+  <tbody id="trigBody"></tbody></table>
+  <div class="legend">
+    <span><span class="dot" style="background:var(--grn)"></span>DORMANT</span>
+    <span><span class="dot" style="background:var(--amb)"></span>WATCH</span>
+    <span><span class="dot" style="background:var(--red)"></span>ARMED</span>
+    <span style="margin-left:auto" id="scoreLine"></span>
+  </div>
+</div>
+
+<div class="grid2" style="margin-bottom:16px">
+  <div class="card">
+    <h2>Probability-weighted burst window</h2>
+    <div class="tl"><div class="seg bear" id="segBear">—</div><div class="seg base" id="segBase">—</div><div class="seg bull" id="segBull">—</div><div class="nowmark"><span>▼ NOW</span></div></div>
+    <div class="tlaxis"><span>2026</span><span>2027 ← most likely</span><span>2028</span><span>2029+</span></div>
+    <div class="foot" id="timingFoot"></div>
+  </div>
+  <div class="card">
+    <h2>Where the bubble is (68-name scan)</h2>
+    <div style="font-size:11.5px;color:var(--mut);margin-bottom:5px">Most fragile (8.5-10/10) — 50-90% downside on multiple compression alone:</div>
+    <div class="names" id="riskiest"></div>
+    <div style="font-size:11.5px;color:var(--mut);margin:13px 0 5px">Most resilient (3-4.5/10) — de-rating risk, not solvency:</div>
+    <div class="names" id="safest"></div>
+    <div class="foot" style="margin-top:11px">Core (NVIDIA 6.5) ≠ pets.com: ~31x on accelerating 75%-margin audited earnings vs Cisco’s 130-200x in 2000.</div>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <h2>“AI BUBLE” scheduled checks <span style="text-transform:none;letter-spacing:0;color:var(--mut)">— through Nov 2028</span></h2>
+  <div class="sched" id="sched"></div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <h2>Check log</h2>
+  <div id="checkLog"></div>
+</div>
+
+<div class="card"><div class="foot">
+  <b style="color:var(--txt)">Not financial advice.</b> Educational analysis only; not a recommendation or solicitation. Bubble timing is treacherous — “markets can stay irrational longer than you can stay solvent.” Prices via Yahoo Finance (delayed); fundamentals are point-in-time. Detail in the repo’s report files.
+</div></div>
+
+<script>
+  var CHECKS = []; // filled from data
+  function at9(d){ return new Date(d + "T09:00:00"); }
+  function fmt(d){ return d.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric",year:"numeric"}); }
+  var nxt = null;
+
+  function render(d){
+    // status
+    var sb = document.getElementById("statusBadge");
+    sb.className = "badge " + ((d.status&&d.status.level)||"green");
+    sb.textContent = (d.status&&d.status.level==="green"?"🟢 ":d.status&&d.status.level==="amber"?"🟡 ":"🔴 ") + ((d.status&&d.status.label)||"");
+    if(d.meta&&d.meta.lastUpdated){ document.getElementById("updated").innerHTML = "data: <b>"+new Date(d.meta.lastUpdated).toLocaleString()+"</b>"; }
+
+    // signal
+    if(d.signal){
+      document.getElementById("capexG").textContent = d.signal.capexGrowth||"";
+      document.getElementById("revG").textContent = d.signal.revGrowth||"";
+      if(d.signal.capexPct) document.getElementById("capexBar").style.width = Math.min(100,d.signal.capexPct)+"%";
+      if(d.signal.revPct) document.getElementById("revBar").style.width = Math.min(100,d.signal.revPct)+"%";
+      document.getElementById("signalNote").innerHTML = (d.signal.armed?"🔴 <b>ARMED:</b> ":"⚠️ <b>Status: NOT YET ARMED (watch).</b> ") + (d.signal.note||"");
+    }
+
+    // prices
+    if(d.prices && d.prices.length){
+      var html = "";
+      d.prices.forEach(function(p){
+        var c = (p.change==null)?"" : (p.change>=0?'<span class="c up">▲ '+p.change.toFixed(2)+'%</span>':'<span class="c down">▼ '+Math.abs(p.change).toFixed(2)+'%</span>');
+        html += '<div class="px '+(p.tag||'')+'"><div class="t">'+p.sym+' · '+p.name+'</div><div class="p">'+(p.price!=null?'$'+p.price:'—')+'</div>'+c+'</div>';
+      });
+      document.getElementById("prices").innerHTML = html;
+      var dt = d.prices.find(function(x){return x.date;});
+      if(dt) document.getElementById("pxAsOf").textContent = "— as of "+dt.date+" (Yahoo, delayed)";
+    }
+
+    // triggers
+    if(d.triggers){
+      document.getElementById("trigBody").innerHTML = d.triggers.map(function(t){
+        return '<tr><td class="num">'+t.n+'</td><td><div class="tname">'+t.name+'</div><div class="tread">'+(t.sub||'')+'</div></td><td>'+t.metric+'</td><td><span class="pill '+t.status+'">'+t.status.toUpperCase()+'</span></td></tr>';
+      }).join("");
+    }
+    if(d.scoreboard){ document.getElementById("scoreLine").innerHTML = "Today: <b style='color:var(--amb)'>"+d.scoreboard.watch+" WATCH · "+d.scoreboard.dormant+" DORMANT · "+d.scoreboard.armed+" ARMED</b>"; }
+
+    // timing
+    if(d.timing){
+      document.getElementById("segBear").textContent = "BEAR ~"+d.timing.bear.pct+"%";
+      document.getElementById("segBase").textContent = "BASE ~"+d.timing.base.pct+"%";
+      document.getElementById("segBull").textContent = "BULL ~"+d.timing.bull.pct+"%";
+      document.getElementById("timingFoot").innerHTML =
+        '<b style="color:var(--red)">Bear (~'+d.timing.bear.pct+'%)</b> '+d.timing.bear.window+' — '+d.timing.bear.desc+'.<br>'+
+        '<b style="color:var(--amb)">Base (~'+d.timing.base.pct+'%)</b> '+d.timing.base.window+' — '+d.timing.base.desc+'.<br>'+
+        '<b style="color:var(--grn)">Bull (~'+d.timing.bull.pct+'%)</b> '+d.timing.bull.window+' — '+d.timing.bull.desc+'.';
+    }
+
+    // names
+    if(d.riskiest){ document.getElementById("riskiest").innerHTML = d.riskiest.map(function(x){return '<span class="chiprisk">'+x[0]+' '+x[1]+'</span>';}).join(""); }
+    if(d.safest){ document.getElementById("safest").innerHTML = d.safest.map(function(x){return '<span class="chipsafe">'+x[0]+' '+x[1]+'</span>';}).join(""); }
+
+    // schedule
+    CHECKS = d.checks || [];
+    var now = new Date();
+    var nextIdx = CHECKS.findIndex(function(c){ return at9(c[0]) > now; });
+    if(nextIdx<0) nextIdx = CHECKS.length-1;
+    document.getElementById("sched").innerHTML = CHECKS.map(function(c,i){
+      var cls = "chk"+(i<nextIdx?" done":"")+(i===nextIdx?" next":"");
+      return '<div class="'+cls+'"><div class="d">'+fmt(at9(c[0]))+'</div><div class="q">'+c[1]+'</div>'+(i===nextIdx?'<span class="tag">NEXT ▸</span>':(i<nextIdx?'<span class="q">✓ done</span>':''))+'</div>';
+    }).join("");
+    nxt = at9(CHECKS[nextIdx][0]);
+    document.getElementById("nextDate").textContent = fmt(nxt)+" · 9:00am";
+    document.getElementById("nextQ").textContent = "Reviews: "+CHECKS[nextIdx][1];
+
+    // log
+    if(d.checkLog){ document.getElementById("checkLog").innerHTML = d.checkLog.slice().reverse().map(function(l){return '<div class="log"><b>'+l.date+'</b> — '+l.note+'</div>';}).join(""); }
+  }
+
+  function tick(){
+    var t = new Date();
+    document.getElementById("clock").innerHTML = "🕘 <b>"+t.toLocaleString()+"</b>";
+    if(nxt){
+      var ms = nxt - t; if(ms<0) ms=0;
+      var dd=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);
+      document.getElementById("cd").textContent = dd+"d "+String(h).padStart(2,"0")+"h "+String(m).padStart(2,"0")+"m";
+      document.getElementById("cdunits").textContent = "until "+fmt(nxt);
+    }
+  }
+
+  fetch("./data.json?_="+Date.now())
+    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(d){ render(d); tick(); setInterval(tick,1000); })
+    .catch(function(e){ document.getElementById("loaderr").style.display="block"; console.error(e); });
+</script>
+</body>
+</html>
