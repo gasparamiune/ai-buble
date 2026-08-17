@@ -2,7 +2,7 @@
   "meta": {
     "title": "AI BUBBLE — Live Trigger Monitor",
     "baselineDate": "2026-06-08",
-    "lastUpdated": "2026-08-14T23:18:49.093Z",
+    "lastUpdated": "2026-08-17T23:19:44.789Z",
     "lastDeepCheck": "2026-06-08 (initial 57-agent baseline)"
   },
   "status": {
@@ -228,97 +228,97 @@
       "name": "NVIDIA",
       "sym": "NVDA",
       "tag": "core",
-      "price": 225.16,
-      "change": -0.06,
-      "date": "2026-08-14"
+      "price": 225.01,
+      "change": -0.07,
+      "date": "2026-08-17"
     },
     {
       "name": "Microsoft",
       "sym": "MSFT",
       "tag": "core",
-      "price": 495.4,
-      "change": -0.3,
-      "date": "2026-08-14"
+      "price": 480.35,
+      "change": -3.04,
+      "date": "2026-08-17"
     },
     {
       "name": "Alphabet",
       "sym": "GOOGL",
       "tag": "core",
-      "price": 345.9,
-      "change": -0.13,
-      "date": "2026-08-14"
+      "price": 344,
+      "change": -0.55,
+      "date": "2026-08-17"
     },
     {
       "name": "Amazon",
       "sym": "AMZN",
       "tag": "core",
-      "price": 262.65,
-      "change": -0.94,
-      "date": "2026-08-14"
+      "price": 261.31,
+      "change": -0.51,
+      "date": "2026-08-17"
     },
     {
       "name": "Meta",
       "sym": "META",
       "tag": "core",
-      "price": 589.85,
-      "change": -0.86,
-      "date": "2026-08-14"
+      "price": 568.97,
+      "change": -3.54,
+      "date": "2026-08-17"
     },
     {
       "name": "CoreWeave",
       "sym": "CRWV",
       "tag": "periphery",
-      "price": 105.26,
-      "change": -0.97,
-      "date": "2026-08-14"
+      "price": 106,
+      "change": 0.7,
+      "date": "2026-08-17"
     },
     {
       "name": "Astera Labs",
       "sym": "ALAB",
       "tag": "periphery",
-      "price": 321.61,
-      "change": -0.36,
-      "date": "2026-08-14"
+      "price": 320.17,
+      "change": -0.45,
+      "date": "2026-08-17"
     },
     {
       "name": "ARM",
       "sym": "ARM",
       "tag": "periphery",
-      "price": 279.44,
-      "change": 0.28,
-      "date": "2026-08-14"
+      "price": 271.43,
+      "change": -2.87,
+      "date": "2026-08-17"
     },
     {
       "name": "Tesla",
       "sym": "TSLA",
       "tag": "periphery",
-      "price": 342.27,
-      "change": 0.68,
-      "date": "2026-08-14"
+      "price": 339.3,
+      "change": -0.87,
+      "date": "2026-08-17"
     },
     {
       "name": "Lumentum",
       "sym": "LITE",
       "tag": "periphery",
-      "price": 926.14,
-      "change": 5.19,
-      "date": "2026-08-14"
+      "price": 968.9,
+      "change": 4.62,
+      "date": "2026-08-17"
     },
     {
       "name": "Bloom Energy",
       "sym": "BE",
       "tag": "periphery",
-      "price": 229.94,
-      "change": -2.66,
-      "date": "2026-08-14"
+      "price": 232.16,
+      "change": 0.97,
+      "date": "2026-08-17"
     },
     {
       "name": "Palantir",
       "sym": "PLTR",
       "tag": "periphery",
-      "price": 174.04,
-      "change": -2.78,
-      "date": "2026-08-14"
+      "price": 172.55,
+      "change": -0.86,
+      "date": "2026-08-17"
     }
   ],
   "headlines": [],
